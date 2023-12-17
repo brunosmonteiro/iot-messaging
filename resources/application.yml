@@ -1,0 +1,79 @@
+exchange: home_control
+connection:
+  host: localhost
+  port: 5116
+  username: admin
+  password: admin
+
+queues:
+  # direct consumers
+  - name: thermostat_living-room_temperature_queue
+    routingKeys:
+      - thermostat.living-room.set_temperature
+
+  - name: thermostat_bedroom_temperature_queue
+    routingKeys:
+      - thermostat.bedroom.set_temperature
+
+  - name: thermostat_living-room_report_queue
+    routingKeys:
+      - thermostat.living-room.report_temperature
+
+  - name: thermostat_bedroom_report_queue
+    routingKeys:
+      - thermostat.bedroom.report_temperature
+
+  - name: light_living-room_switch_queue
+    routingKeys:
+      - light.living-room.switch
+
+  - name: light_bedroom_switch_queue
+    routingKeys:
+      - light.bedroom.switch
+
+  - name: light_living-room_adjust_queue
+    routingKeys:
+      - light.living-room.adjust
+
+  - name: light_bedroom_adjust_queue
+    routingKeys:
+      - light.bedroom.adjust
+
+  - name: security_living-room_switch_queue
+    routingKeys:
+      - security.living-room.switch
+
+  - name: security_bedroom_switch_queue
+    routingKeys:
+      - security.bedroom.switch
+
+  - name: security_living-room_report_queue
+    routingKeys:
+      - security.living-room.get_report
+
+  - name: security_bedroom_report_queue
+    routingKeys:
+      - security.bedroom.get_report
+
+  - name: security_living-room_inform_queue
+    routingKeys:
+      - security.living-room.inform_activity
+
+  - name: security_bedroom_inform_queue
+    routingKeys:
+      - security.bedroom.inform_activity
+
+  # advanced consumers
+  - name: environment_controller_queue
+    routingKeys:
+      - "thermostat.*.temperature"
+      - "light.*.temperature"
+
+  - name: user_security_predictor_queue
+    routingKey: "security.#"
+
+  - name: bedroom_controller_queue
+    routingKey: "#.bedroom.#"
+
+  - name: living_room_controller_queue
+    routingKey: "#.living-room.#"
