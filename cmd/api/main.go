@@ -1,15 +1,9 @@
 package main
 
 import (
-	"iot-messaging/cmd/config"
+	"iot-messaging/cmd/api/config"
 	"log"
 )
-
-func failOnError(err error, msg string) {
-	if err != nil {
-		log.Fatalf("%s: %s", msg, err)
-	}
-}
 
 func main() {
 	if err := run(); err != nil {
@@ -18,5 +12,21 @@ func main() {
 }
 
 func run() error {
-	conn, err := config.GetConn()
+	messageConfig, err := config.LoadConfig()
+	if err != nil {
+		return nil
+	}
+	conn, err := config.GetConn(messageConfig.Connection)
+	if err != nil {
+		return err
+	}
+	channel, err := config.CreateTopicExchange(conn, messageConfig.Exchange)
+	if err != nil {
+		return err
+	}
+	err = config.SetupQueues(channel, messageConfig)
+	if err != nil {
+		return err
+	}
+	return nil
 }

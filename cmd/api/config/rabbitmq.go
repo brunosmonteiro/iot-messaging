@@ -3,7 +3,7 @@ package config
 import (
 	"fmt"
 	"github.com/streadway/amqp"
-	"iot-messaging/cmd/model"
+	"iot-messaging/cmd/api/model"
 	"log"
 )
 
